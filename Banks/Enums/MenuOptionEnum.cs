@@ -1,4 +1,4 @@
-﻿namespace SimpleBank.Bank.Enums
+﻿namespace SimpleBank.Banks.Enums
 {
     public class MenuOptionEnum
     {

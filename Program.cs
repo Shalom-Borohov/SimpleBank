@@ -1,4 +1,4 @@
-﻿using SimpleBank.Bank.Classes;
+﻿using SimpleBank.Banks.Classes;
 using SimpleBank.IO.Readers;
 using SimpleBank.IO.Writers;
 
@@ -8,7 +8,7 @@ namespace SimpleBank
     {
         static void Main(string[] args)
         {
-            var customerService = new CustomerService { Reader = new Reader(), Writer = new ColorWriter() };
+            var customerService = new CustomerService { Reader = new Reader(), Writer = new ColorWriter(), Bank = new Bank() };
             customerService.StartCustomerChat();
         }
     }

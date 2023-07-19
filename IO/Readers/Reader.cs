@@ -1,9 +1,13 @@
 ﻿using System;
+using SimpleBank.Utils;
 
 namespace SimpleBank.IO.Readers
 {
     public class Reader
     {
-        public int ReadInt() => int.Parse(Console.ReadLine() ?? string.Empty);
+        public EnumUtil EnumUtil = new EnumUtil();
+
+        public string ReadLine() => Console.ReadLine();
+        public T ReadEnum<T>() => EnumUtil.ParseEnum<T>(ReadLine());
     }
 }
