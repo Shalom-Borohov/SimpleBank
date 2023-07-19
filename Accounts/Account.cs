@@ -2,7 +2,8 @@
 {
     public abstract class Account
     {
-        public int Balance { get; set; }
+        public string Id { get; set; }
+        public int Balance { get; set; } = 0;
 
         public virtual void Deposit(uint amount) => Balance += (int)amount;
 

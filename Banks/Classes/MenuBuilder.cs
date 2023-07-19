@@ -27,7 +27,7 @@ namespace SimpleBank.Banks.Classes
             stringBuilder.AppendLine($"Add new account!");
             stringBuilder.AppendLine($"Please Choose an option:");
             stringBuilder.AppendLine($"{(int)AccountOption.Simple}. Add simple Account");
-            stringBuilder.AppendLine($"{(int)AccountOption.Simple}. Add vip Account");
+            stringBuilder.AppendLine($"{(int)AccountOption.Vip}. Add vip Account");
             stringBuilder.AppendLine($"{(int)AccountOption.Back}. No I don't want to anymore");
 
             return stringBuilder.ToString();

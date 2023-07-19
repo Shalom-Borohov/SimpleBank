@@ -19,7 +19,7 @@ namespace SimpleBank.Banks.Classes
             ActionsByOption = new Dictionary<MenuOption, Action>
             {
                 { MenuOption.AddAccount, AddNewAccountChat },
-                { MenuOption.RemoveAccount, () => { } },
+                { MenuOption.RemoveAccount, RemoveAccountChat },
                 { MenuOption.DepositAll, () => { } },
                 { MenuOption.Deposit, () => { } },
                 { MenuOption.Withdraw, () => { } },
@@ -62,7 +62,10 @@ namespace SimpleBank.Banks.Classes
 
                 if (accountOption != AccountOption.Back)
                 {
-                    Bank.AddNewAccount(accountOption);
+                    Writer.WriteLine("What is your account id?");
+                    var accountId = Reader.ReadLine();
+                    Writer.WriteNewLine();
+                    Bank.AddNewAccount(accountOption, accountId);
                     Writer.WriteLine("Huge success!");
                 }
 
@@ -73,6 +76,23 @@ namespace SimpleBank.Banks.Classes
                 Writer.WriteLine(exception.Message);
                 Writer.WriteNewLine();
                 AddNewAccountChat();
+            }
+        }
+
+        private void RemoveAccountChat()
+        {
+            try
+            {
+                Writer.WriteLine("What is the account id to remove?");
+                var id = Reader.ReadLine();
+                Bank.RemoveAccount(id);
+                Writer.WriteLine("Removed account!");
+                Writer.WriteNewLine();
+            }
+            catch (Exception exception)
+            {
+                Writer.WriteLine(exception.Message);
+                Writer.WriteNewLine();
             }
         }
 
