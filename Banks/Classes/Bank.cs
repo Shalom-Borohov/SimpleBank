@@ -35,5 +35,29 @@ namespace SimpleBank.Banks.Classes
             var accountToRemove = Accounts.Single(account => account.Id.Equals(id));
             Accounts.RemoveAt(Accounts.IndexOf(accountToRemove));
         }
+
+        public void DepositAll(uint amount) => Accounts.ApplyAll(account => account.Deposit(amount));
+
+        public void Deposit(string id, uint amount)
+        {
+            if (!IsAccountIdExists(id))
+            {
+                throw new AccountNotFoundException("Can't deposit to account. There is no such id.");
+            }
+
+            Accounts.ApplyByPredicate(account => account.Deposit(amount), account => account.Id.Equals(id));
+        }
+
+        public void Withdraw(string id, uint amount)
+        {
+            if (!IsAccountIdExists(id))
+            {
+                throw new AccountNotFoundException("Can't withdraw from account. There is no such id.");
+            }
+
+            Accounts.ApplyByPredicate(account => account.Withdraw(amount), account => account.Id.Equals(id));
+        }
+
+        private bool IsAccountIdExists(string id) => Accounts.Any(account => account.Id.Equals(id));
     }
 }

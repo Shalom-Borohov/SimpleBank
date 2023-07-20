@@ -20,9 +20,9 @@ namespace SimpleBank.Banks.Classes
             {
                 { MenuOption.AddAccount, AddNewAccountChat },
                 { MenuOption.RemoveAccount, RemoveAccountChat },
-                { MenuOption.DepositAll, () => { } },
-                { MenuOption.Deposit, () => { } },
-                { MenuOption.Withdraw, () => { } },
+                { MenuOption.DepositAll, DepositAllChat },
+                { MenuOption.Deposit, DepositChat },
+                { MenuOption.Withdraw, WithdrawChat },
                 { MenuOption.Exit, () => { } },
             };
         }
@@ -87,6 +87,61 @@ namespace SimpleBank.Banks.Classes
                 var id = Reader.ReadLine();
                 Bank.RemoveAccount(id);
                 Writer.WriteLine("Removed account!");
+                Writer.WriteNewLine();
+            }
+            catch (Exception exception)
+            {
+                Writer.WriteLine(exception.Message);
+                Writer.WriteNewLine();
+            }
+        }
+
+        private void DepositAllChat()
+        {
+            try
+            {
+                Writer.WriteLine("What is the amount to deposit to everyone?");
+                var amount = Reader.ReadUInt();
+                Bank.DepositAll(amount);
+                Writer.WriteLine("Deposited to all!");
+                Writer.WriteNewLine();
+            }
+            catch (Exception exception)
+            {
+                Writer.WriteLine(exception.Message);
+                Writer.WriteNewLine();
+            }
+        }
+
+        private void DepositChat()
+        {
+            try
+            {
+                Writer.WriteLine("What is the id to deposit to?");
+                var id = Reader.ReadLine();
+                Writer.WriteLine("What is the amount to deposit?");
+                var amount = Reader.ReadUInt();
+                Bank.Deposit(id, amount);
+                Writer.WriteLine("Deposited successfully!");
+                Writer.WriteNewLine();
+            }
+            catch (Exception exception)
+            {
+                Writer.WriteLine(exception.Message);
+                Writer.WriteNewLine();
+            }
+        }
+
+        private void WithdrawChat()
+        {
+            try
+            {
+                Writer.WriteLine("What is the id to withdraw from?");
+                var id = Reader.ReadLine();
+                Writer.WriteLine("What is the amount to withdraw?");
+                var amount = Reader.ReadUInt();
+                Bank.Withdraw(id, amount);
+                Writer.WriteLine("Taken money successfully!");
                 Writer.WriteNewLine();
             }
             catch (Exception exception)
