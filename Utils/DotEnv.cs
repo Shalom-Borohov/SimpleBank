@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-namespace Logger.Utils
+namespace SimpleBank.Utils
 {
     public class DotEnv
     {

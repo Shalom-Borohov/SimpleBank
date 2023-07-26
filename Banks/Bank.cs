@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using SimpleBank.Accounts;
-using SuperList.Lists.Classes;
 using System.Linq;
+using SimpleBank.Accounts;
 using SimpleBank.Exceptions;
+using SuperList.Lists;
 using static SimpleBank.Banks.Enums.AccountOptionEnum;
 
-namespace SimpleBank.Banks.Classes
+namespace SimpleBank.Banks
 {
     public class Bank
     {
         public DoublyLinkedList<Account> Accounts = new DoublyLinkedList<Account>();
 
-        public Dictionary<AccountOption, Func<string, Account>> AccountsByOption = new Dictionary<AccountOption, Func<string, Account>> {
+        public Dictionary<AccountOption, Func<string, Account>> AccountsByOption =
+            new Dictionary<AccountOption, Func<string, Account>> {
             { AccountOption.Simple, id => new SimpleAccount { Id = id } },
             { AccountOption.Vip, id => new VIPAccount { Id = id } }
         };
@@ -45,7 +46,11 @@ namespace SimpleBank.Banks.Classes
                 throw new AccountNotFoundException("Can't deposit to account. There is no such id.");
             }
 
-            Accounts.ApplyByPredicate(account => account.Deposit(amount), account => account.Id.Equals(id));
+            Accounts.ApplyByPredicate(account =>
+            {
+                account.Deposit(amount);
+                Console.WriteLine($"Balance: {account.Balance}");
+            }, account => account.Id.Equals(id));
         }
 
         public void Withdraw(string id, uint amount)
@@ -55,7 +60,11 @@ namespace SimpleBank.Banks.Classes
                 throw new AccountNotFoundException("Can't withdraw from account. There is no such id.");
             }
 
-            Accounts.ApplyByPredicate(account => account.Withdraw(amount), account => account.Id.Equals(id));
+            Accounts.ApplyByPredicate(account =>
+            {
+                account.Withdraw(amount);
+                Console.WriteLine($"Balance: {account.Balance}");
+            }, account => account.Id.Equals(id));
         }
 
         private bool IsAccountIdExists(string id) => Accounts.Any(account => account.Id.Equals(id));

@@ -1,40 +1,46 @@
-﻿using Logger.Utils;
-using SimpleBank.Banks.Classes;
-using SimpleBank.IO.Readers;
+﻿using SimpleBank.IO.Readers;
 using SimpleBank.IO.Writers;
 using System.IO;
 using Logger.Loggers.Classes;
 using static Logger.Loggers.Enums.LoggerTypes;
 using System;
-using Logger.Loggers.Interfaces;
+using System.Reflection;
+using System.Resources;
+using SimpleBank.Banks;
+using SimpleBank.Utils;
+using EnumUtil = Logger.Utils.EnumUtil;
 
 namespace SimpleBank
 {
     public class Program
     {
-        static void Main(string[] args)
+        public static void Main()
         {
-            var root = Directory.GetCurrentDirectory();
-            var dotenvPath = Path.Combine(root, ".env");
-            var dotEnv = new DotEnv();
-            dotEnv.Load(dotenvPath);
-
-            var loggerCreator = new LoggerCreator();
-            var logger = loggerCreator.Create(GetEnvLoggerType());
+            LoadDotEnv();
 
             var colorWriter = new ColorWriter();
-            colorWriter.ChangeForegroundColor(ConsoleColor.Cyan);
+            colorWriter.ResetForegroundColor();
 
-            var customerService = new CustomerService
+            InitCustomerService(colorWriter).StartCustomerChat();
+        }
+
+        private static void LoadDotEnv()
+        {
+            var dotEnvPath = Path.Combine(Directory.GetCurrentDirectory(), ".env");
+            new DotEnv().Load(dotEnvPath);
+        }
+
+        private static CustomerService InitCustomerService(ColorWriter colorWriter) =>
+            new CustomerService
             {
                 Reader = new Reader(),
-                Writer = new ColorWriter(),
+                ColorWriter = colorWriter,
                 Bank = new Bank(),
-                Logger = logger
+                Logger = new LoggerCreator().Create(GetEnvLoggerType()),
+                CustomerResources = new ResourceManager("CustomerService", typeof(Program).Assembly),
+                ExceptionsResources =
+                    new ResourceManager("SimpleBank.Resources.ExceptionMessages", typeof(Program).Assembly),
             };
-
-            customerService.StartCustomerChat();
-        }
 
         private static LoggerType GetEnvLoggerType()
         {

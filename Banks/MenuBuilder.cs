@@ -2,7 +2,7 @@
 using static SimpleBank.Banks.Enums.MenuOptionEnum;
 using static SimpleBank.Banks.Enums.AccountOptionEnum;
 
-namespace SimpleBank.Banks.Classes
+namespace SimpleBank.Banks
 {
     public class MenuBuilder
     {

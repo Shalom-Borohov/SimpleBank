@@ -8,5 +8,10 @@ namespace SimpleBank.IO.Writers
         {
             Console.ForegroundColor = color;
         }
+
+        public void ResetForegroundColor()
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+        }
     }
 }
